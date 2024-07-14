@@ -1,7 +1,7 @@
 # CSB-Blog
 Simple blog site with CRUD operations using Node.js, mogodb and HTML
 
-Follow the steps before running the project.
+Follow these steps before running the project.
 
  1. Run this command in the command prompt
     ```bash
