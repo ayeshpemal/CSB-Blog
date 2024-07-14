@@ -1,0 +1,60 @@
+const Blog = require("../models/blog");
+
+const blog_index = (req, res) => {
+  Blog.find()
+    .sort({ createdAt: -1 })
+    .then((result) => {
+      res.render("blogs.ejs", { title: "Blogs", blogs: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const blog_create_post = (req, res) => {
+  const blog = new Blog(req.body);
+
+  blog
+    .save()
+    .then((result) => {
+      res.redirect("/blogs");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const blog_create_get = (req, res) => {
+  res.render("create.ejs", { title: "Create Blog" });
+};
+
+const blog_details = (req, res) => {
+  const blog_id = req.params.id;
+  Blog.findById(blog_id)
+    .then((result) => {
+      res.render("blog.ejs", { blog: result, title: "Blog" });
+    })
+    .catch((err) => {
+      res.status(404).render("404.ejs", { title: "404" });
+      console.log(err);
+    });
+};
+
+const blog_delete = (req, res) => {
+  const blog_id = req.params.id;
+  Blog.findByIdAndDelete(blog_id)
+    .then((result) => {
+      res.json({ redirect: "/blogs" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+module.exports = {
+  blog_index,
+  blog_create_get,
+  blog_create_post,
+  blog_details,
+  blog_delete,
+};

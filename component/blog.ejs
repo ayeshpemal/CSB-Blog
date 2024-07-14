@@ -1,0 +1,36 @@
+<html lang="en">
+<head>
+    <%- include('section/header.ejs') %>
+</head>
+<body>
+
+    <%- include('section/body.ejs') %>
+
+
+    <div class="blogDetails">
+        <div class="blogTitle">
+            <h2><%= blog.title %></h2>
+            <a class="delete" id="delete" data-doc="<%= blog._id %>">🗑</a>
+        </div>
+        <p><%= blog.body %></p> 
+    </div>
+
+    <%- include('section/footer.ejs') %>
+
+    <script>
+        const blogref = document.getElementById('delete');
+        blogref.addEventListener('click', () => {
+            const endpoint = `/blogs/${blogref.dataset.doc}`;
+            fetch(endpoint, {
+                method: 'delete'
+            })
+            .then((res) => res.json())
+            .then((data) => window.location.href = data.redirect)
+            .catch((err) => {
+                console.log(err);
+            })
+        })
+    </script>
+
+</body>
+</html>
