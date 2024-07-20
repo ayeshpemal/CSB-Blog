@@ -54,11 +54,18 @@ a:hover{
 }
 
 .blog{
-    display: block;
-    border-left: solid rgb(255, 33, 33);
+    display: grid;
+    border-left: 5px solid rgb(255, 33, 33);
+    border-bottom: 1px solid gray;
     padding: 0px 15px;
     margin-bottom: 30px;
     transition: scale 0.3s;
+}
+
+.blog .title{
+    font-size: 22px;
+    font-weight: bold;
+
 }
 
 .blog p{
@@ -69,6 +76,36 @@ a:hover{
 .blog:hover{
     scale: 1.01;
 }
+
+.blog .date{
+    justify-self: right;
+}
+
+.blogsContainer .paging{
+    display:flex;
+}
+
+.blogsContainer .next{
+    position:absolute;
+    right: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.blogsContainer .pageNo{
+    position: absolute;
+    left: 50vw;
+    transform: translate(-50%);
+    font-weight: bold
+}
+
+.blogsContainer .prev{
+    position:absolute;
+    left: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+  
 
 .about{
     margin: 30px;

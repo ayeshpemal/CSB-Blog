@@ -1,14 +1,33 @@
+const { application } = require("express");
 const Blog = require("../models/blog");
 
 const blog_index = (req, res) => {
-  Blog.find()
-    .sort({ createdAt: -1 })
-    .then((result) => {
-      res.render("blogs.ejs", { title: "Blogs", blogs: result });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  const perPage = 4;
+  const page = req.query.page || 1;
+
+  Blog.countDocuments().then((result) => {
+    const count = result;
+    const nextPage =
+      parseInt(page) < Math.ceil(count / perPage) ? parseInt(page) + 1 : null;
+    const prevPage = parseInt(page) > 1 ? parseInt(page) - 1 : null;
+
+    Blog.find()
+      .sort({ createdAt: -1 })
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .then((result) => {
+        res.render("blogs.ejs", {
+          title: "Blogs",
+          blogs: result,
+          nextPage,
+          prevPage,
+          page,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 };
 
 const blog_create_post = (req, res) => {
