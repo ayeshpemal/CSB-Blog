@@ -1,0 +1,35 @@
+<html lang="en">
+<head>
+    <%- include('section/header.ejs') %>
+</head>
+<body>
+
+    <%- include('section/body.ejs') %>
+    
+    <div class="blogsContainer">
+        <h1>Search Results "<%= search %>"</h1>
+        <% if(blogs.length > 0) { %>
+            <% blogs.map( (blog) => { %>
+                <a class="blog" href="./<%= blog._id %>">
+                    <span class="title"><%= blog.title %></span>
+                    <span class="date"><%= blog.createdAt.toDateString() %></span>
+                    <p><%= blog.desc %></p>
+                </a>
+            <% }) %>
+        <% } %>
+        
+        <div class="paging">
+            <% if(prevPage) {%>
+                <a class="prev " href="/blogs?page=<%= prevPage %>">< Previous Page </a>
+            <% } %>
+            <p class="pageNo"><%= page<10?0:"" %><%= page %></p>
+            <% if(nextPage) {%>
+                <a class="next" href="/blogs?page=<%= nextPage %>">Next Page ></a>
+            <% } %>
+        </div>
+    </div>
+
+    <%- include('section/footer.ejs') %>
+
+</body>
+</html>

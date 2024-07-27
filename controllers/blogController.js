@@ -70,10 +70,42 @@ const blog_delete = (req, res) => {
     });
 };
 
+const blog_search_post = (req, res) => {
+  const perPage = 4;
+  const page = req.query.page || 1;
+  const search = req.body.search;
+
+  Blog.countDocuments().then((result) => {
+    const count = result;
+    const nextPage =
+      parseInt(page) < Math.ceil(count / perPage) ? parseInt(page) + 1 : null;
+    const prevPage = parseInt(page) > 1 ? parseInt(page) - 1 : null;
+
+    Blog.find({ title: { $regex: search, $options: "i" } })
+      .sort({ createdAt: -1 })
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .then((result) => {
+        res.render("search.ejs", {
+          title: "Blogs",
+          blogs: result,
+          nextPage,
+          prevPage,
+          page,
+          search,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+};
+
 module.exports = {
   blog_index,
   blog_create_get,
   blog_create_post,
   blog_details,
   blog_delete,
+  blog_search_post,
 };

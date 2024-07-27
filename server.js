@@ -22,6 +22,7 @@ app.set("views", "component");
 //middleware & static files
 app.use(express.static("resource"));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(morgan("dev"));
 
 app.get("/about", (req, res) => {
