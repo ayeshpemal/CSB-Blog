@@ -73,15 +73,25 @@ const blog_delete = (req, res) => {
 const blog_search_post = (req, res) => {
   const perPage = 4;
   const page = req.query.page || 1;
-  const search = req.body.search;
+  const search = req.body.search || req.query.search;
 
-  Blog.countDocuments().then((result) => {
+  Blog.countDocuments({
+    $or: [
+      { title: { $regex: search, $options: "i" } },
+      { body: { $regex: search, $options: "i" } },
+    ],
+  }).then((result) => {
     const count = result;
     const nextPage =
       parseInt(page) < Math.ceil(count / perPage) ? parseInt(page) + 1 : null;
     const prevPage = parseInt(page) > 1 ? parseInt(page) - 1 : null;
 
-    Blog.find({ title: { $regex: search, $options: "i" } })
+    Blog.find({
+      $or: [
+        { title: { $regex: search, $options: "i" } },
+        { body: { $regex: search, $options: "i" } },
+      ],
+    })
       .sort({ createdAt: -1 })
       .skip(perPage * page - perPage)
       .limit(perPage)

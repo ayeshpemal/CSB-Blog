@@ -2,6 +2,9 @@ const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const blogRoutes = require("./routes/blogRoutes");
+const coockieParser = require("cookie-parser");
+const MongoStore = require("connect-mongo");
+const session = require("express-session");
 require("dotenv").config();
 
 const app = express();
@@ -9,9 +12,8 @@ const app = express();
 /* //password encoding
 const pass = "Ayesha#1234";
 const encodedPass = encodeURIComponent(pass); */
-const dbString = process.env.MONGO_URL;
 mongoose
-  .connect(dbString)
+  .connect(process.env.MONGO_URL)
   .then((result) => app.listen(process.env.PORT))
   .catch((err) => console.log(err));
 
@@ -23,6 +25,17 @@ app.set("views", "component");
 app.use(express.static("resource"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(coockieParser());
+app.use(
+  session({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URL,
+    }),
+  })
+);
 app.use(morgan("dev"));
 
 app.get("/about", (req, res) => {

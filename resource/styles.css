@@ -33,13 +33,22 @@ body{
     font-weight: bold;
 }
 
+.navRight form div{
+    display: flex;
+    background-color: rgb(204, 203, 203);
+    border-radius: 20px;
+    margin-right: 15px;
+    padding: 0px 10px;
+}
+
 .navRight form input, button{
-    background-color: rgba(204, 203, 203, 0.87);
+    background-color: rgb(204, 203, 203);
     border: none;
     border-radius: 20px;
     margin-right: 15px;
     margin-top: 15px;
     height: 30px;
+    outline: none;
 }
 
 .footer{
