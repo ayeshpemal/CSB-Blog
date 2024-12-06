@@ -38,17 +38,20 @@ body{
     background-color: rgb(204, 203, 203);
     border-radius: 20px;
     margin-right: 15px;
-    padding: 0px 10px;
+    margin-top: 12px;
+    padding-left: 10px;
 }
 
 .navRight form input, button{
     background-color: rgb(204, 203, 203);
     border: none;
     border-radius: 20px;
-    margin-right: 15px;
-    margin-top: 15px;
     height: 30px;
     outline: none;
+}
+
+.navRight form button{
+    background-color: rgb(177, 177, 177);
 }
 
 .footer{
